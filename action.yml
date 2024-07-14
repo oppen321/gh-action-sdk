@@ -11,10 +11,7 @@ runs:
       id: inputs
     - run: sudo chown -R 1000:1000 ${{ steps.inputs.outputs.artifacts_dir }} ${{ steps.inputs.outputs.feed_dir }}
       shell: bash
-    - run: |
-        echo "::group::  docker build -t sdk $GITHUB_ACTION_PATH"
-        docker build --build-arg CONTAINER --build-arg ARCH -t sdk $GITHUB_ACTION_PATH
-        echo "::endgroup::"
+    - run: docker build --build-arg CONTAINER --build-arg ARCH -t sdk $GITHUB_ACTION_PATH
       shell: bash
     - run: |
         docker run --rm \
@@ -35,7 +32,5 @@ runs:
       shell: bash
     - run: sudo chown -R --reference=${{ steps.inputs.outputs.artifacts_dir }}/.. ${{ steps.inputs.outputs.artifacts_dir }}
       shell: bash
-      if: always()
     - run: sudo chown -R --reference=${{ steps.inputs.outputs.feed_dir }}/.. ${{ steps.inputs.outputs.feed_dir }}
       shell: bash
-      if: always()
